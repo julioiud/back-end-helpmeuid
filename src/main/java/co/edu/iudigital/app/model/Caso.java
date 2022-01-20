@@ -12,11 +12,17 @@ import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.PrePersist;
 import javax.persistence.Table;
+import javax.validation.constraints.Min;
 
+/**
+ * Entidad de casos
+ * @author julio
+ *
+ */
+//ORM -> Hibernate
 @Entity
 @Table(name = "casos")
 public class Caso implements Serializable{
-	
 	/**
 	 * 
 	 */
