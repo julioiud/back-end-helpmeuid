@@ -12,8 +12,6 @@ import javax.persistence.ManyToMany;
 import javax.persistence.Table;
 import javax.validation.constraints.NotBlank;
 
-import lombok.Data;
-
 @Entity
 @Table(name = "roles")
 public class Role implements Serializable{
