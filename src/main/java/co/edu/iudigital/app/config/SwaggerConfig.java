@@ -27,7 +27,7 @@ public class SwaggerConfig {
     public Docket api(){
         return new Docket(DocumentationType.SWAGGER_2)
                 .select()
-                .apis(RequestHandlerSelectors.basePackage("com.iudigital.app.controller"))
+                .apis(RequestHandlerSelectors.basePackage("co.edu.iudigital.app.controller"))
                 .paths(PathSelectors.any())
                 .build()
                 .apiInfo(apiInfo())
