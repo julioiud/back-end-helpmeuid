@@ -6,5 +6,5 @@ import org.springframework.stereotype.Repository;
 import co.edu.iudigital.app.model.Delito;
 
 @Repository
-public interface IDelitopRepository extends JpaRepository<Delito, Long>{
+public interface IDelitoRepository extends JpaRepository<Delito, Long>{
 }
