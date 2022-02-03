@@ -58,6 +58,6 @@ public class UsuarioController {
 	
 	@PostMapping("/signup")
 	public ResponseEntity<Usuario> create(@RequestBody Usuario usuario) throws RestException{
-		
+		return null;
 	}
 }
