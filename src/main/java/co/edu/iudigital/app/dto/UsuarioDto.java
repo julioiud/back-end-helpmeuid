@@ -15,10 +15,13 @@ import javax.validation.constraints.Email;
 import javax.validation.constraints.NotEmpty;
 import javax.validation.constraints.Size;
 
+import com.fasterxml.jackson.annotation.JsonProperty;
+
 import co.edu.iudigital.app.model.Role;
 
 public class UsuarioDto {
 
+	
 	private Long id;
 
 	private String username;
