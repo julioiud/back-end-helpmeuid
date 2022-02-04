@@ -15,4 +15,6 @@ public interface IUsuarioService {
 	public Usuario saveUser(Usuario usuario) throws RestException;
 	
 	public Usuario listByUsername(String username);
+	
+	public Usuario updateUser(Usuario usuario) throws RestException;
 }
