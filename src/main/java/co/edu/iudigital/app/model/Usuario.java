@@ -18,6 +18,8 @@ import javax.validation.constraints.Email;
 import javax.validation.constraints.NotEmpty;
 import javax.validation.constraints.Size;
 
+import com.fasterxml.jackson.annotation.JsonProperty;
+
 @Entity
 @Table(name = "usuarios")
 public class Usuario implements Serializable{
@@ -47,7 +49,8 @@ public class Usuario implements Serializable{
 	@Size(min = 1, max = 12, message = "Fuera de rango")
 	@Column(nullable = true, length = 120)
 	private String apellido;
-	
+
+	@JsonProperty("fecha_nacimiento")
 	@Column(name = "fecha_nacimiento")
 	private LocalDate fechaNacimiento;
 	
