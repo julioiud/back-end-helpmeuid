@@ -2,12 +2,16 @@ package co.edu.iudigital.app.service.impl;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Objects;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import co.edu.iudigital.app.dto.CasoDto;
+import co.edu.iudigital.app.exception.BadRequestException;
+import co.edu.iudigital.app.exception.ErrorDto;
 import co.edu.iudigital.app.exception.RestException;
 import co.edu.iudigital.app.model.Caso;
 import co.edu.iudigital.app.repository.ICasoRepository;
@@ -46,6 +50,13 @@ public class CasoServiceImpl implements ICasoService{
 	@Transactional
 	@Override
 	public Caso save(Caso caso) throws RestException {
+		if(Objects.isNull(caso)) {
+			throw new BadRequestException(ErrorDto.getErrorDto(
+					HttpStatus.BAD_REQUEST.getReasonPhrase(), 
+					"Mala petición", //TODO: CREAR CONSTANTE EN CONSUTIL
+					HttpStatus.BAD_REQUEST.value())
+				);
+		}
 		return casoRepository.save(caso);
 	}
 

@@ -12,6 +12,7 @@ import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.PrePersist;
 import javax.persistence.Table;
+import javax.validation.constraints.NotNull;
 
 /**
  * Entidad de casos
@@ -38,6 +39,22 @@ public class Caso implements Serializable{
 	
 	private float longitud;
 	
+	private float altitud;
+	
+	/**
+	 * @return the altitud
+	 */
+	public float getAltitud() {
+		return altitud;
+	}
+
+	/**
+	 * @param altitud the altitud to set
+	 */
+	public void setAltitud(float altitud) {
+		this.altitud = altitud;
+	}
+
 	private Boolean visible;
 
 	private String descripcion;

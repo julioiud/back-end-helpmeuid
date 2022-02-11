@@ -7,10 +7,12 @@ public class CasoDto {
 	private Long id;
 
 	private LocalDateTime fechaHora;
-	
+
 	private float latitud;
 	
 	private float longitud;
+	
+	private float altitud;
 	
 	private Boolean visible;
 
@@ -96,6 +98,19 @@ public class CasoDto {
 		this.longitud = longitud;
 	}
 
+	/**
+	 * @return the altitud
+	 */
+	public float getAltitud() {
+		return altitud;
+	}
+
+	/**
+	 * @param altitud the altitud to set
+	 */
+	public void setAltitud(float altitud) {
+		this.altitud = altitud;
+	}
 	/**
 	 * @return the visible
 	 */
