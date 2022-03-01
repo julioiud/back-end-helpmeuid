@@ -16,6 +16,7 @@ import javax.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -27,6 +28,7 @@ import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.multipart.MultipartFile;
 
 import co.edu.iudigital.app.dto.UsuarioDto;
+import co.edu.iudigital.app.exception.BadRequestException;
 import co.edu.iudigital.app.exception.ErrorDto;
 import co.edu.iudigital.app.exception.NotFoundException;
 import co.edu.iudigital.app.exception.RestException;
@@ -54,6 +56,9 @@ public class UsuarioController {
 	@Autowired
 	private IEmailService emailService;
 	
+	@Autowired
+	private BCryptPasswordEncoder passwordEncoder;
+	
 	@ApiOperation(value = "Obtiene todos los usuarios",
 			produces = "application/json",
 			httpMethod = "GET")
@@ -79,9 +84,21 @@ public class UsuarioController {
 			produces = "application/json",
 			httpMethod = "POST")
 	@PostMapping("/signup")
+	// TODO: colocar UsuariDto en el request body
 	public ResponseEntity<UsuarioDto> create(@RequestBody @Valid Usuario usuario) throws RestException{
+		Usuario usuarioFinded = usuarioService.listByUsername(usuario.getUsername());
+		
+		if(Objects.nonNull(usuarioFinded)) {
+			throw new BadRequestException(
+					ErrorDto.getErrorDto(HttpStatus.BAD_REQUEST.getReasonPhrase(), 
+							"Ya existe Usuario", 
+							HttpStatus.BAD_REQUEST.value())
+			);
+		}
+		if(Objects.nonNull(usuario.getPassword())) {
+			usuario.setPassword(passwordEncoder.encode(usuario.getPassword()));
+		}
 		Usuario usuarioSaved = usuarioService.saveUser(usuario);		
-		// TODO: IMPLEMENTAR SPRING SECURITY
 		if(Objects.nonNull(usuarioSaved)) {
 			String mess = "Su usuario "+ usuarioSaved.getUsername() +
 					" y contraseña " + usuarioSaved.getPassword();
