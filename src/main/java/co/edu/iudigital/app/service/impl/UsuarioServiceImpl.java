@@ -8,6 +8,12 @@ import java.util.stream.Collectors;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
+import org.springframework.security.core.GrantedAuthority;
+import org.springframework.security.core.authority.SimpleGrantedAuthority;
+import org.springframework.security.core.userdetails.User;
+import org.springframework.security.core.userdetails.UserDetails;
+import org.springframework.security.core.userdetails.UserDetailsService;
+import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -23,10 +29,29 @@ import co.edu.iudigital.app.service.iface.IUsuarioService;
 import co.edu.iudigital.app.util.ConstUtil;
 
 @Service
-public class UsuarioServiceImpl implements IUsuarioService{
+public class UsuarioServiceImpl implements IUsuarioService, UserDetailsService{
 
 	@Autowired
 	private IUsuarioRepository usuarioRepository;
+	
+
+	@Transactional(readOnly = true)
+	@Override
+	public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
+		Usuario usuario = usuarioRepository.findByUsername(username);
+		if(Objects.isNull(usuario)) {
+			throw new UsernameNotFoundException("Error en el login con: "+username);
+		}
+		List<GrantedAuthority> authorities = new ArrayList<>(); 
+		
+		for(Role rol: usuario.getRoles()) {
+			GrantedAuthority authority = new SimpleGrantedAuthority(rol.getNombre());
+			authorities.add(authority);
+		}
+		
+		return new User(usuario.getUsername(), usuario.getPassword(),
+				usuario.getEnabled(), true, true, true, authorities);
+	}
 	
 	@Transactional(readOnly = true)
 	@Override
@@ -111,5 +136,7 @@ public class UsuarioServiceImpl implements IUsuarioService{
 		}
 		return usuarioRepository.save(usuario);
 	}
+
+
 
 }
